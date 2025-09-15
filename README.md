@@ -10,7 +10,7 @@ This vault is designed for programmers who participate in online coding competit
 
 - Solutions to classic and trending competitive programming problems
 - Templates for common algorithms and data structures
-- Code samples in multiple languages (e.g., C++, Python, Java)
+- Code samples in multiple languages (e.g., C++, Java)
 - Organized by topic (e.g., graphs, DP, sorting, number theory)
 - Clean, readable, and commented code for easy understanding
 
@@ -20,6 +20,7 @@ This vault is designed for programmers who participate in online coding competit
 2. **Use Templates:** Copy and adapt the provided templates for quick problem solving.
 3. **Practice & Learn:** Study the solutions and try implementing them on your own for better retention.
 
+<!--
 ## Contributing
 
 Contributions are welcome! If you have interesting problems, optimized solutions, or useful templates to share, feel free to open a pull request.
@@ -29,7 +30,7 @@ Contributions are welcome! If you have interesting problems, optimized solutions
 - Add your content in the appropriate folder or create a new one
 - Ensure your code is well-commented and readable
 - Open a pull request with a brief description of your changes
-
+-->
 ## License
 
 This repository is open source and available under the MIT License.
