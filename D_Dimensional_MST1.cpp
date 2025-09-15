@@ -1,0 +1,148 @@
+#include<bits/stdc++.h> 
+using namespace std; 
+#define ll long long
+typedef pair<int, int> Pair; 
+
+// Structure to represent a graph 
+struct Graph 
+{ 
+	int V, E; 
+	vector< pair<int, Pair> > edges; 
+
+	// Constructor 
+	Graph(int V, int E) 
+	{ 
+		this->V = V; 
+		this->E = E; 
+	} 
+
+	// Utility function to add an edge 
+	void addEdge(int w, int u, int v) 
+	{ 
+		edges.push_back({w, {u, v}}); 
+	} 
+
+	// Function to find MST using Kruskal's 
+	// MST algorithm 
+	int kruskalMST(); 
+}; 
+
+// To represent Disjoint Sets 
+struct DisjointSets 
+{ 
+	int *parent, *rnk; 
+	int n; 
+
+	// Constructor. 
+	DisjointSets(int n) 
+	{ 
+		// Allocate memory 
+		this->n = n; 
+		parent = new int[n+1]; 
+		rnk = new int[n+1]; 
+
+		// Initially, all vertices are in 
+		// different sets and have rank 0. 
+		for (int i = 0; i <= n; i++) 
+		{ 
+			rnk[i] = 0; 
+
+			//every element is parent of itself 
+			parent[i] = i; 
+		} 
+	} 
+
+	// Find the parent of a node 'u' 
+	// Path Compression 
+	int find(int u) 
+	{ 
+		/* Make the parent of the nodes in the path 
+		from u--> parent[u] point to parent[u] */
+		if (u != parent[u]) 
+			parent[u] = find(parent[u]); 
+		return parent[u]; 
+	} 
+
+	// Union by rank 
+	void merge(int x, int y) 
+	{ 
+		x = find(x), y = find(y); 
+
+		/* Make tree with smaller height 
+		a subtree of the other tree */
+		if (rnk[x] > rnk[y]) 
+			parent[y] = x; 
+		else // If rnk[x] <= rnk[y] 
+			parent[x] = y; 
+
+		if (rnk[x] == rnk[y]) 
+			rnk[y]++; 
+	} 
+}; 
+
+/* Functions returns weight of the MST*/
+
+int Graph::kruskalMST() 
+{ 
+	int mst_wt = 0; // Initialize result 
+
+	// Sort edges in increasing order on basis of cost 
+	sort(edges.begin(), edges.end()); 
+
+	// Create disjoint sets 
+	DisjointSets ds(V); 
+	vector< pair<int, Pair> >::iterator it; 
+	for (it=edges.begin(); it!=edges.end(); it++) 
+	{ 
+		int u = it->second.first; 
+		int v = it->second.second; 
+		int set_u = ds.find(u); 
+		int set_v = ds.find(v); 
+		if (set_u != set_v) 
+		{ 
+			// Update MST weight 
+			mst_wt += it->first; 
+			// Merge two sets 
+			ds.merge(set_u, set_v); 
+		} 
+	} 
+
+	return mst_wt; 
+} 
+
+// Driver program to test above functions 
+int main() 
+{
+    ios_base::sync_with_stdio(false);
+    cin.tie(0);
+    int n,d;
+    cin>>n>>d;
+    int a[n][d];
+    int size=(n*(n-1))/2;
+    // vector <int,pair<int,int>> adj;
+    int V=n,E=(n*(n-1)/2);
+    Graph g(V, E);
+    for(int i=0;i<n;i++)
+    {
+        for(int j=0;j<d;j++)
+        {
+            cin>>a[i][j];
+        }
+    }
+    for(int i=0;i<n-1;i++)
+    {
+        for(int j=i+1;j<n;j++)
+        {
+            int dist=0;
+            for(int k=0;k<d;k++)
+            {
+                dist+=abs(a[j][k]-a[i][k]);
+            }
+            g.addEdge(-dist,i,j);
+        }
+    }
+	int mst_wt = g.kruskalMST(); 
+	cout<< abs(mst_wt)<<"\n"; 
+
+	return 0; 
+}
